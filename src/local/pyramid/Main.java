@@ -42,54 +42,33 @@ public class Main {
                 } else {
                     String[] children = new String[] {(parsedData.get(i))[parent], (parsedData.get(i))[parent+1]};
                     boolean needOddNow = Integer.parseInt(temp[i - 1]) % 2 == 0;
-                    if (needOddNow == true) {
-                        StringBuilder pathSoFar = new StringBuilder();
-                        for (int j = 0; j < i; j++){
-                            pathSoFar.append(temp[j].toString());
-                        }
+                    int oneZero = needOddNow ? 1 : 0;
 
-                        if (Integer.parseInt(children[0])%2 == 1 && !oldPaths.contains(pathSoFar.toString())) {
-                            temp[i] = children[0];
-                        } else if (Integer.parseInt(children[1])%2 == 1) {
-                            temp[i] = children[1];
-                            parent++;
-                        } else {
-                            if (!oldPaths.contains(pathSoFar.toString())){
-                                oldPaths.add(pathSoFar.toString());
-                            } else {
-                                StringBuilder trimmedPath = new StringBuilder();
-                                for (int j = 0; j < i - 1; j++){
-                                    trimmedPath.append(temp[j].toString());
-                                }
-                                oldPaths.set(oldPaths.indexOf(pathSoFar.toString()), trimmedPath.toString());
-
-                            }
-
-                            break;
-                        }
-                    } else {
-                        StringBuilder pathSoFar = new StringBuilder();
-                        for (int j = 0; j < i; j++){
-                            pathSoFar.append(temp[j]);
-                        }
-                        if (Integer.parseInt(children[0])%2 == 0 && !oldPaths.contains(pathSoFar.toString())) {
-                            temp[i] = children[0];
-                        } else if (Integer.parseInt(children[1])%2 == 0) {
-                            temp[i] = children[1];
-                            parent++;
-                        } else {
-                            if (!oldPaths.contains(pathSoFar.toString())){
-                                oldPaths.add(pathSoFar.toString());
-                            } else {
-                                StringBuilder trimmedPath = new StringBuilder();
-                                for (int j = 0; j < i - 1; j++){
-                                    trimmedPath.append(temp[j]);
-                                }
-                                oldPaths.set(oldPaths.indexOf(pathSoFar.toString()), trimmedPath.toString());
-                            }
-                            break;
-                        }
+                    StringBuilder pathSoFar = new StringBuilder();
+                    for (int j = 0; j < i; j++){
+                        pathSoFar.append(temp[j]);
                     }
+
+                    if (Integer.parseInt(children[0])%2 == oneZero && !oldPaths.contains(pathSoFar.toString())) {
+                        temp[i] = children[0];
+                    } else if (Integer.parseInt(children[1])%2 == oneZero) {
+                        temp[i] = children[1];
+                        parent++;
+                    } else {
+                        if (!oldPaths.contains(pathSoFar.toString())){
+                            oldPaths.add(pathSoFar.toString());
+                        } else {
+                            StringBuilder trimmedPath = new StringBuilder();
+                            for (int j = 0; j < i - 1; j++){
+                                trimmedPath.append(temp[j]);
+                            }
+                            oldPaths.set(oldPaths.indexOf(pathSoFar.toString()), trimmedPath.toString());
+
+                        }
+
+                        break;
+                    }
+
                 }
             }
 
@@ -152,10 +131,10 @@ public class Main {
                 sum += Long.parseLong(array[k]);
                 max = (sum > max) ? sum : max;
             }
-            System.out.println(sum);
+            System.out.println("Sum of this path: " + sum);
         }
         System.out.println("Maximum is " + max);
-        
+
 
 
     }
