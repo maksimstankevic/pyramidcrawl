@@ -121,19 +121,29 @@ public class Main {
 
             counter++;
         }
+
+        //System.out.println(oldPaths);
+        //System.out.println(badCounts);
+        //System.out.println(oldPaths.size());
+        //System.out.println(badCounts.size());
+
         System.out.println(fullPaths.size());
         long max = 0;
+        String winner = "";
         for (String entry: fullPaths){
             String [] array = entry.split(" ");
             System.out.print(Arrays.toString(array) + "\t\t\t");
             long sum = 0;
             for (int k = 0; k < parsedData.size(); k++) {
                 sum += Long.parseLong(array[k]);
+                winner = (sum > max) ? Arrays.toString(array) : winner;
                 max = (sum > max) ? sum : max;
+
             }
             System.out.println("Sum of this path: " + sum);
+
         }
-        System.out.println("Maximum is " + max);
+        System.out.println("\n\n\nMaximum is " + max + " and it corresponds to the path: " + winner);
 
 
 
