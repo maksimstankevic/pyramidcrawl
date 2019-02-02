@@ -92,10 +92,10 @@ public class Main {
             }
 
 
-            System.out.println("Inside while, counter - " + counter);
-            System.out.println("fullPaths " + fullPaths);
-            System.out.println("oldPaths " + oldPaths);
-            System.out.println("badCounts" + badCounts);
+            System.out.println("INSIDE WHILE, counter - " + counter);
+            System.out.println("VARIABLE fullPaths " + fullPaths);
+            System.out.println("VARIABLE oldPaths " + oldPaths);
+            System.out.println("VARIABLE badCounts" + badCounts);
 
 
 
