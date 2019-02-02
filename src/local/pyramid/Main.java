@@ -24,14 +24,18 @@ public class Main {
         for (String [] arr: parsedData) System.out.println(Arrays.toString(arr));
 
         List<String> fullPaths = new ArrayList<>();
-        List<String> oldPaths = new ArrayList<>();
+        Set<String> oldPaths = new HashSet<>();
         int counter = 0;
 
-        String [] temp = new String[parsedData.size()];
+
         Map<String,Integer> badCounts = new HashMap<>();
 
-//        while(counter < 331) {
-        while(counter < 10) {
+
+        boolean reachedTheEND = false;
+
+        while(!reachedTheEND) {
+
+            String [] temp = new String[parsedData.size()];
 
 
             for (int i = 0, parent = 0; i < parsedData.size(); i++) {
@@ -51,12 +55,11 @@ public class Main {
                         temp[i] = children[1];
                         parent++;
                     } else {
-                        if (!oldPaths.contains(pathSoFar)){
-                            oldPaths.add(pathSoFar);
-                        } else {
 
-                            String trimmedPath = getPathWithInt(i - 1, temp);
-                            oldPaths.set(oldPaths.indexOf(pathSoFar), trimmedPath);
+                        if (!oldPaths.add(pathSoFar)) {
+                            int repeatCount = 1;
+                            while (i - repeatCount > 0 && !oldPaths.add(getPathWithInt(i - repeatCount, temp))) repeatCount++;
+                            if (i - repeatCount == 0) reachedTheEND = true;
 
                         }
 
@@ -85,17 +88,21 @@ public class Main {
                     String usedFullPath = getPathWithInt(parsedData.size(), temp);
                     String veryBadPath = getPathWithInt(parsedData.size() - badCounts.get(usedFullPath), temp);
                     badCounts.put(usedFullPath, badCounts.get(usedFullPath) + 1);
-                    oldPaths.add(veryBadPath);
+                    while (!oldPaths.add(veryBadPath)) {
+                        veryBadPath = getPathWithInt(parsedData.size() - badCounts.get(usedFullPath), temp);
+                        badCounts.put(usedFullPath, badCounts.get(usedFullPath) + 1);
+                    }
+
 
                 }
 
             }
 
 
-            System.out.println("INSIDE WHILE, counter - " + counter);
-            System.out.println("VARIABLE fullPaths " + fullPaths);
-            System.out.println("VARIABLE oldPaths " + oldPaths);
-            System.out.println("VARIABLE badCounts" + badCounts);
+//            System.out.println("INSIDE WHILE, counter - " + counter);
+//            System.out.println("VARIABLE fullPaths " + fullPaths);
+//            System.out.println("VARIABLE oldPaths " + oldPaths);
+//            System.out.println("VARIABLE badCounts" + badCounts);
 
 
 
@@ -103,8 +110,13 @@ public class Main {
         }
 
 
+//        System.out.println("VARIABLE oldPaths " + oldPaths);
+//        System.out.println("VARIABLE oldPaths SIZE " + oldPaths.size());
+//        oldPaths.stream().sorted().forEach(System.out::println);
+//        System.out.println("VARIABLE badCounts" + badCounts);
 
-        System.out.println(fullPaths.size());
+
+        System.out.println("\nNumber of valid paths found: " + fullPaths.size() + "\n");
         long max = 0;
         String winner = "";
         for (String entry: fullPaths){
@@ -124,9 +136,10 @@ public class Main {
 
 
 
+
     }
 
-    public static String getPathWithInt (int depth, String [] stringArray) {
+    private static String getPathWithInt (int depth, String [] stringArray) {
         StringBuilder path = new StringBuilder();
         for (int j = 0; j < depth; j++) {
             path.append(stringArray[j]);
@@ -134,7 +147,7 @@ public class Main {
         return path.toString();
     }
 
-    public static String getPathWithIntSpaceDelimited (int depth, String [] stringArray) {
+    private static String getPathWithIntSpaceDelimited (int depth, String [] stringArray) {
         StringBuilder path = new StringBuilder();
         for (int j = 0; j < depth; j++) {
             path.append(stringArray[j] + " ");
